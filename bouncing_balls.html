@@ -1,0 +1,62 @@
+<!doctype html>
+<head>
+  <style>
+    canvas{
+      border: 1px solid black;
+      width: 800px;
+      margin: 0 auto;
+      display: block;
+    }
+  </style>
+  <script>
+    var canvas, ctx, circleX, circleY;
+    radius = 15;
+    dx = .666;
+    dy = .333;
+    speed = 10;
+    var colors = ['red', 'blue', 'green'];
+    var currentColor = 0;
+    
+    function init(){
+      canvas = document.getElementById('myCanvas');
+      ctx = canvas.getContext('2d');
+      circleX = canvas.width/2;
+      circleY = canvas.height/2;
+      requestAnimationFrame(animate);
+    }
+    
+    function animate(){
+      //draw circle
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      ctx.arc(circleX, circleY, radius, 0, 2*Math.PI, false);
+      ctx.fill();
+      //move circle
+      if(circleX + radius >= canvas.width || circleX - radius <= 0){
+        changeColor();
+        dx = -dx;
+      }
+      if(circleY + radius >= canvas.height || circleY - radius <= 0){
+        changeColor();
+        dy = -dy;
+      }
+      circleX+= dx*speed;
+      circleY+= dy*speed;
+      requestAnimationFrame(animate);
+    }
+    
+    function changeColor(){
+      ctx.fillStyle = colors[currentColor%3];
+      currentColor++;
+    }
+    
+  </script>
+</head>
+<body onload="init();">
+  <div id="stylecontainer">
+    <canvas id="myCanvas">
+      Your browser does not support the canvas tag.
+    </canvas>
+  </div>
+</body>
+</html>
